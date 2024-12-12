@@ -12,3 +12,9 @@ In the app directory:
     When you navigate to the corresponding route (e.g., / for app/page.tsx), Next.js automatically:
         Renders the layout (layout.tsx) first.
         Injects the page.tsx content as the children prop into the layout.tsx file
+
+
+Login Button:
+
+    A button calls signIn('github') to log in using GitHub as the provider.
+    The argument 'github' specifies that GitHub is the OAuth provider being used for authentication.
