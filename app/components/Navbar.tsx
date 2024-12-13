@@ -6,61 +6,46 @@ import Image from "next/image";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 const Navbar = () => {
-    const { data: session } = useSession();
+  const { data: session } = useSession();
 
-    return (
-        <header className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 shadow-lg text-white">
-            <nav className="container mx-auto flex justify-between items-center py-4 px-6">
-                {/* Logo */}
-                <Link href="/" className="flex items-center gap-3">
-                    <Image src="/logo.png" alt="logo" width={144} height={30} />
-                </Link>
+  return (
+    <header className="bg-gradient-to-r from-red-500 via-red-600 to-red-700 shadow-md py-4">
+      <nav className="container mx-auto flex justify-between items-center px-6">
+        {/* Logo */}
+        <Link href="/">
+          <Image src="/logo.png" alt="logo" width={144} height={30} />
+        </Link>
 
-                {/* Navigation & Auth */}
-                <div className="flex items-center gap-8">
-                    {/* If user is signed in */}
-                    {session && session.user ? (
-                        <>
-                            <Link
-                                href="/startup/create"
-                                className="text-sm font-medium hover:text-gray-200 transition"
-                            >
-                                Create
-                            </Link>
-                            <button
-                                onClick={() => signOut()}
-                                className="bg-red-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-700 transition"
-                            >
-                                Sign Out
-                            </button>
-                            <Link
-                                href={`/user/${session.user.id}`}
-                                className="flex items-center gap-2"
-                            >
-                                <Image
-                                    src={session.user.image || "/default-user.png"}
-                                    alt="User Avatar"
-                                    width={32}
-                                    height={32}
-                                    className="rounded-full border border-gray-200"
-                                />
-                                <span className="text-sm font-medium">
-                                    {session.user.name}
-                                </span>
-                            </Link>
-                        </>
-                    ) : (
-                        <button
-                            onClick={() => signIn("github")}
-                            className="bg-gray-900 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition"
-                        >
-                            Login with GitHub
-                        </button>
-                    )}
-                </div>
-            </nav>
-        </header>
-    );
+        {/* Navigation and User Authentication */}
+        <div className="flex items-center gap-6 text-white font-semibold">
+          {/* When User is logged in */}
+          {session && session.user ? (
+            <>
+              <Link href="/startup/create">
+                <span className="hover:text-yellow-300 transition-colors">Create</span>
+              </Link>
+              <button
+                onClick={() => signOut()}
+                className="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors"
+              >
+                Sign Out
+              </button>
+              <Link href={`/user/${session.user.id}`} className="hover:text-yellow-300 transition-colors">
+                <span>{session.user.name}</span>
+              </Link>
+            </>
+          ) : (
+            <button
+              onClick={() => signIn("github")}
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+            >
+              Login with GitHub
+            </button>
+          )}
+        </div>
+      </nav>
+    </header>
+  );
 };
 
 export default Navbar;
