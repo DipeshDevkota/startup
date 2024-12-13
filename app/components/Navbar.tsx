@@ -9,7 +9,7 @@ const Navbar = () => {
   const { data: session } = useSession();
 
   return (
-    <header className="bg-gradient-to-r from-red-500 via-red-600 to-red-700 shadow-md py-4">
+    <header className=" bg-slate-200 shadow-md py-4">
       <nav className="container mx-auto flex justify-between items-center px-6">
         {/* Logo */}
         <Link href="/">
