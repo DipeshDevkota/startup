@@ -168,3 +168,9 @@ In the code, this session object is used to:
     Show different options based on whether the user is signed in or not:
         If the user is signed in, show the Create button, the user’s avatar, and a Sign Out button.
         If the user is not signed in, show a login button for GitHub authentication.
+
+
+The Promise for searchParams is useful when the parameters involve asynchronous computation, such as:
+
+    Fetching additional data based on the query.
+    Validating or preprocessing query parameters on the server.
