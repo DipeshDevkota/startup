@@ -174,3 +174,7 @@ The Promise for searchParams is useful when the parameters involve asynchronous 
 
     Fetching additional data based on the query.
     Validating or preprocessing query parameters on the server.
+
+
+
+This is why we write { post }: { post: StartupTypeCard }: It means, "Destructure the post prop from the props, and ensure that post is of type StartupTypeCard."
