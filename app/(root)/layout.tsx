@@ -1,12 +1,16 @@
+import React from "react";
+import Providers from "./providers";
 import Navbar from "../components/Navbar";
 
-export default function Layout({children}: Readonly<{children: React.ReactNode}>)
-{
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <main className="font-work-sans">
-            <Navbar/>
-       {children}
-        </main>
-    )
+        <html lang="en">
+            <body>
+                <Providers>
+                    <Navbar />
+                    {children}
+                </Providers>
+            </body>
+        </html>
+    );
 }
