@@ -1,10 +1,21 @@
-// next.config.js
+// In Next.js, you should use either domains or remotePatterns, but not both in the same configuration.
+
+// next.config.js// next.config.mjs
 const nextConfig = {
   experimental: {
     serverActions: true,
   },
   images: {
-    domains: ["avatars.githubusercontent.com"], // Add the domain here
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com", // Allow specific hostname
+      },
+      {
+        protocol: "https",
+        hostname: "*", // Allow any hostname (use cautiously)
+      },
+    ],
   },
 };
 
