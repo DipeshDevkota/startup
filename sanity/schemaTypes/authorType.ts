@@ -1,46 +1,45 @@
-import {UserIcon} from '@sanity/icons'
-import {defineArrayMember, defineField, defineType} from 'sanity'
+import { defineType, defineField } from "sanity";
+import { UserIcon } from "lucide-react";
 
-export const authorType = defineType({
-  name: 'author',
-  title: 'Author',
-  type: 'document',
+export const author = defineType({
+  name: "author",
+  title: "Author",
+  type: "document",
   icon: UserIcon,
   fields: [
     defineField({
-      name: 'name',
-      type: 'string',
+      name: "id",
+      title: "ID", // Adding a title for better usability in the studio
+      type: "number",
     }),
     defineField({
-      name: 'slug',
-      type: 'slug',
-      options: {
-        source: 'name',
-      },
+      name: "name",
+      title: "Name", // Adding a title for clarity
+      type: "string",
     }),
     defineField({
-      name: 'image',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
+      name: "username",
+      title: "Username", // Adding a title for clarity
+      type: "string",
     }),
     defineField({
-      name: 'bio',
-      type: 'array',
-      of: [
-        defineArrayMember({
-          type: 'block',
-          styles: [{title: 'Normal', value: 'normal'}],
-          lists: [],
-        }),
-      ],
+      name:"email",
+      type:"string",
     }),
+    defineField({
+      name:"image",
+      type:"url",
+    }),
+
+    defineField({
+      name:"bio",
+      type:"text",
+    }),
+
   ],
   preview: {
     select: {
-      title: 'name',
-      media: 'image',
+      title: "name", // The name field will be displayed as the title in previews
     },
   },
-})
+});
