@@ -182,3 +182,8 @@ This is why we write { post }: { post: StartupTypeCard }: It means, "Destructure
 
 sanityFetch is used to retrieve data from Sanity's dataset (e.g., blog posts, products, or other CMS-managed content).
 SanityLive makes that data live, meaning any updates to your Sanity dataset will be reflected instantly on your web application if you're subscribed to those updates.
+
+
+### Dynamic Route Handling with [id] in Next.js
+- Route parameters (e.g., `id`) are automatically passed as props to `page.tsx` under the `params` object.
+- Access them directly using `{ params: { id: string } }` for dynamic route rendering.
