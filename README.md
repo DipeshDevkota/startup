@@ -178,3 +178,7 @@ The Promise for searchParams is useful when the parameters involve asynchronous 
 
 
 This is why we write { post }: { post: StartupTypeCard }: It means, "Destructure the post prop from the props, and ensure that post is of type StartupTypeCard."
+
+
+sanityFetch is used to retrieve data from Sanity's dataset (e.g., blog posts, products, or other CMS-managed content).
+SanityLive makes that data live, meaning any updates to your Sanity dataset will be reflected instantly on your web application if you're subscribed to those updates.

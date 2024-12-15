@@ -7,8 +7,11 @@ const  Home = async ({searchParams}:{searchParams: Promise<{query?:string}>}) =>
 
   const query = (await searchParams).query;
   console.log(query)
-   
-  const {data:posts} = await sanityFetch({query: STARTUPS_QUERY})
+   //live fetching
+
+   const params= {search: query || null};
+  const {data:posts} = await sanityFetch({query: STARTUPS_QUERY, params})
+  
   return (
     <>
 
