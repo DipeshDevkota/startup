@@ -44,7 +44,24 @@ const authOptions = {
                 return false; // Deny sign-in if there's an error
             }
         },
+
+        async jwt({ token, account, profile }) {
+            if (account && profile) {
+                const user = await client.fetch(AUTHOR_BY_GITHUB_ID_QUERY, {
+                    id: profile?.id,
+                });
+        
+                // If the user is found, add the user ID to the token
+                if (user) {
+                    token.id = user._id;
+                }
+            }
+            return token;
+        }
+        
     },
+
+
 };
 
 const auth = NextAuth(authOptions);

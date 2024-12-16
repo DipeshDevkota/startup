@@ -187,3 +187,6 @@ SanityLive makes that data live, meaning any updates to your Sanity dataset will
 ### Dynamic Route Handling with [id] in Next.js
 - Route parameters (e.g., `id`) are automatically passed as props to `page.tsx` under the `params` object.
 - Access them directly using `{ params: { id: string } }` for dynamic route rendering.
+
+#Handling the JWT in nextJs#
+In Next.js with NextAuth, JWT management is abstracted away from you. NextAuth handles the creation, storage, and expiration of JWT tokens. Your role is to configure the callbacks to modify the token’s contents or behavior, such as adding user-specific claims, before the token is issued to the client
