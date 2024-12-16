@@ -190,3 +190,16 @@ SanityLive makes that data live, meaning any updates to your Sanity dataset will
 
 #Handling the JWT in nextJs#
 In Next.js with NextAuth, JWT management is abstracted away from you. NextAuth handles the creation, storage, and expiration of JWT tokens. Your role is to configure the callbacks to modify the token’s contents or behavior, such as adding user-specific claims, before the token is issued to the client
+
+//HEAD HTTP//
+2. What is the HEAD Request?
+
+When your application makes a HEAD request to a URL, it’s like asking:
+
+    "Hey, is there something at this URL? And if so, can you give me some details about it without downloading the whole thing?"
+
+The server responds with details (called headers) about the file or resource, such as:
+
+    The type of resource (e.g., an image, webpage, or text file).
+    The size of the resource (e.g., 2 MB).
+    Whether the resource exists or not.
