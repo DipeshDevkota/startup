@@ -1,10 +1,10 @@
-import NextAuth, { Profile, User } from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import { client } from "./sanity/lib/client";
 import { AUTHOR_BY_GITHUB_ID_QUERY } from "./sanity/lib/queries";
 import { writeClient } from "./sanity/lib/write-client";
 
-const authOptions = {
+const authOptions: NextAuthOptions = {
     providers: [
         GitHubProvider({
             clientId: process.env.GITHUB_CLIENT_ID!,
@@ -14,22 +14,23 @@ const authOptions = {
 
     callbacks: {
         async signIn({ user, profile }) {
-            // Destructure needed fields safely
+            if (!profile) {
+                console.error("Profile is undefined during signIn callback.");
+                return false; // Deny sign-in
+            }
+
+            const { id, login, bio } = profile;
             const { name, email, image } = user;
-            const { id, login, bio } = profile || {};
 
             try {
-                // Fetch existing user by GitHub ID
-                const existingUser = await client.fetch(
-                    AUTHOR_BY_GITHUB_ID_QUERY,
-                    { id }
-                );
+                const existingUser = await client
+                    .withConfig({ useCdn: false })
+                    .fetch(AUTHOR_BY_GITHUB_ID_QUERY, { id });
 
-                // If user does not exist, create a new one
                 if (!existingUser) {
                     await writeClient.create({
                         _type: "author",
-                        id: id, // GitHub ID
+                        id, // GitHub ID
                         name,
                         username: login,
                         email,
@@ -41,28 +42,31 @@ const authOptions = {
                 return true; // Allow sign-in
             } catch (error) {
                 console.error("Error in signIn callback:", error);
-                return false; // Deny sign-in if there's an error
+                return false; // Deny sign-in
             }
         },
 
         async jwt({ token, account, profile }) {
             if (account && profile) {
-                const user = await client.fetch(AUTHOR_BY_GITHUB_ID_QUERY, {
-                    id: profile?.id,
-                });
-        
-                // If the user is found, add the user ID to the token
+                const user = await client
+                    .withConfig({ useCdn: false })
+                    .fetch(AUTHOR_BY_GITHUB_ID_QUERY, { id: profile?.id });
+
                 if (user) {
-                    token.id = user._id;
+                    token.id = user?._id;
                 }
             }
             return token;
-        }
-        
+        },
+
+        async session({ session, token }) {
+            if (token?.id) {
+                session.id = token.id;
+            }
+            return session;
+        },
     },
-
-
 };
 
-const auth = NextAuth(authOptions);
-export { auth as default, authOptions };
+export { authOptions };
+export default NextAuth(authOptions);
