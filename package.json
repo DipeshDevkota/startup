@@ -24,6 +24,7 @@
     "clsx": "^2.1.1",
     "easymde": "^2.18.0",
     "lucide-react": "^0.468.0",
+    "markdown-it": "^14.1.0",
     "next": "^15.1.1-canary.5",
     "next-auth": "^4.22.0",
     "next-sanity": "^9.8.27",
@@ -38,6 +39,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@types/markdown-it": "^14.1.2",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
