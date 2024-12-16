@@ -11,26 +11,36 @@ const View = ({ id }: { id: string }) => {
 
   useEffect(() => {
     const fetchAndIncrementViews = async () => {
-      try {
-        // Fetch the current view count
-        const { views } = await client.withConfig({ useCdn: false }).fetch(STARTUP_VIEWS_QUERY, { id });
-
-        if (views !== undefined) {
-          setTotalViews(views);
-
-          // Increment views in the database
-          await writeClient
-            .patch(id)
-            .set({ views: views + 1 })
-            .commit();
-
-          // Update state after successful increment
-          setTotalViews(views + 1);
+        try {
+          console.log('Fetching views for ID:', id);
+      
+          const result = await client.withConfig({ useCdn: false }).fetch(STARTUP_VIEWS_QUERY, { id });
+      
+          console.log('Sanity Response:', result);
+      
+          const { views } = result || {};
+          if (views !== undefined) {
+            console.log('Current Views:', views);
+      
+            setTotalViews(views);
+      
+            // Increment views and commit
+            const updatedResult = await writeClient
+              .patch(id)
+              .set({ views: views + 1 })
+              .commit();
+      
+            console.log('Updated Result:', updatedResult);
+      
+            setTotalViews(views + 1);
+          } else {
+            console.error('No views found in result');
+          }
+        } catch (error) {
+          console.error('Error fetching or updating views:', error);
         }
-      } catch (error) {
-        console.error('Error fetching or updating views:', error);
-      }
-    };
+      };
+      
 
     fetchAndIncrementViews();
   }, [id]);
