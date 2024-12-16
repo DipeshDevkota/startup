@@ -1,18 +1,19 @@
 "use client";
 import { Input } from "@/components/ui/input";
-import React, { useActionState, useState } from "react";
+import React, { useState } from "react";
 import { Textarea } from "./ui/textarea";
 import MDEditor from "@uiw/react-md-editor";
 import { Button } from "./ui/button";
 import { Send } from "lucide-react";
 import { formSchema } from "@/lib/Validation";
-import z from "zod";
+import { createPitch } from "@/lib/actions";
+import { useRouter } from "next/router";  // Correct import for client-side navigation
 
 const StartupForm = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [pitch, setPitch] = useState<string>("");
+  const router = useRouter(); // Initialize the router for navigation
 
-  // Handle form submission
   const handleFormSubmit = async (prevState: any, formData: FormData) => {
     try {
       // Extracting form data
@@ -26,6 +27,16 @@ const StartupForm = () => {
 
       // Validate using Zod schema
       await formSchema.parseAsync(formValues);
+
+      // Send data to createPitch and get result
+      const result = await createPitch(prevState, formData, pitch);
+
+      // If creation is successful, navigate to the new startup's page
+      if (result.status === "SUCCESS" && result?._id) {
+        router.push(`/startup/${result?._id}`); // Use result._id for navigation
+      } else {
+        console.error("Error creating startup:", result.error); // Log error if any
+      }
 
       console.log("Form submitted successfully", formValues);
 

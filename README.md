@@ -203,3 +203,8 @@ The server responds with details (called headers) about the file or resource, su
     The type of resource (e.g., an image, webpage, or text file).
     The size of the resource (e.g., 2 MB).
     Whether the resource exists or not.
+
+//UPTO NOW THE FORM IS MADE,THE INTEGRATION OF USESTATEACTION HAS BEEN DONE WITH THE PROVIOUS STATE//
+
+//SERVER WILL RESET ON SUBMISSION,IT CLEARS AND GIVE AUTOMATCALLY//
+//HELPED IN FORM AND NEXTJS//
