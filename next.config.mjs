@@ -20,6 +20,7 @@ const nextConfig = {
 
   experimental:{
     ppr:"incremental",
+    after:true,
   },
 
   devIndicators:{
