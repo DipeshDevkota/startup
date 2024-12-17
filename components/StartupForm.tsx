@@ -7,8 +7,9 @@ import { Button } from "./ui/button";
 import { Send } from "lucide-react";
 import { formSchema } from "@/lib/Validation";
 import { createPitch } from "@/lib/actions";
-import { useRouter } from "next/router";  // Correct import for client-side navigation
-
+import { useRouter } from "next/navigation"
+import { useActionState } from "react";
+import z from "zod"
 const StartupForm = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [pitch, setPitch] = useState<string>("");
