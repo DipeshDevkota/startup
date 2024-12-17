@@ -37,7 +37,7 @@ export const createPitch = async (
       },
       author: {
         _type: "reference",
-        _ref: session?.user?._id, // Ensure you're accessing the user ID correctly
+        _ref: session?.user?.id, // Ensure you're accessing the user ID correctly
       },
       pitch,
     };

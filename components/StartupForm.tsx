@@ -10,6 +10,7 @@ import { createPitch } from "@/lib/actions";
 import { useRouter } from "next/navigation"
 import { useActionState } from "react";
 import z from "zod"
+
 const StartupForm = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [pitch, setPitch] = useState<string>("");
@@ -17,6 +18,9 @@ const StartupForm = () => {
 
   const handleFormSubmit = async (prevState: any, formData: FormData) => {
     try {
+     
+      
+
       // Extracting form data
       const formValues = {
         title: formData.get("title") as string,
@@ -39,7 +43,7 @@ const StartupForm = () => {
         console.error("Error creating startup:", result.error); // Log error if any
       }
 
-      console.log("Form submitted successfully", formValues);
+      console.log("Form submitted successfully", result);
 
       return { ...prevState, status: "SUCCESS", error: "" };
     } catch (error) {
