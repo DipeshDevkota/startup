@@ -1,4 +1,3 @@
-// import { formatDate } from '@/lib/utils';
 import { client } from "@/sanity/lib/client";
 import { PLAYLIST_BY_SLUG_QUERY, STARTUP_BY_ID_QUERY } from "@/sanity/lib/queries";
 import { Link, View } from "lucide-react";
@@ -10,18 +9,24 @@ import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import StartUpCard, { StartupTypeCard } from "@/components/StartUpCard";
 const md = markdownit();
+
 export const experimental_ppr = true;
+
 const page = async ({ params }: { params: { id: string } }) => {
   const id = params?.id; // Ensure `params` exists
   const post = await client.fetch(STARTUP_BY_ID_QUERY, { id });
-  const { select: editorPosts} = await client.fetch(PLAYLIST_BY_SLUG_QUERY,
-    {slug:'editor-picks-new'}
-  )
+  const playlistResult = await client.fetch(PLAYLIST_BY_SLUG_QUERY, { slug: 'editor-picks-new' });
 
-  console.log("Posts is:", post);
+  console.log("Post:", post);
+  console.log("Playlist Result:", playlistResult);
+
   if (!post) return notFound();
 
   const parsedContent = md.render(post?.pitch || "No pitch content provided!");
+
+  // Safely destructure `editorPosts` or fallback to an empty array
+  const editorPosts = playlistResult?.select || [];
+
   return (
     <>
       <section className="pink_container !min-h-[230px]">
@@ -71,20 +76,19 @@ const page = async ({ params }: { params: { id: string } }) => {
           />
         </div>
         <hr className="divider" />
-        {editorPosts?.length > 0 && (
-  <div className="max-w-4xl mx-auto">
-    <p className="text-30-semibold">Editor Picks</p>
-    <ul className="mt-7 card_grid-sm">
-      {editorPosts.map((post: StartupTypeCard, index: number) => (
-        <StartUpCard key={index} post={post} />
-      ))}
-    </ul>
-  </div>
-)}
+        {editorPosts.length > 0 && (
+          <div className="max-w-4xl mx-auto">
+            <p className="text-30-semibold">Editor Picks</p>
+            <ul className="mt-7 card_grid-sm">
+              {editorPosts.map((post: StartupTypeCard, index: number) => (
+                <StartUpCard key={index} post={post} />
+              ))}
+            </ul>
+          </div>
+        )}
 
-        <Suspense
-          fallback={<Skeleton className="view_skeleton bg-neutral-400" />}
-        >
+        {/* Suspense for async data fetching */}
+        <Suspense fallback={<Skeleton className="view_skeleton bg-neutral-400" />}>
           <View id={id} />
         </Suspense>
       </section>

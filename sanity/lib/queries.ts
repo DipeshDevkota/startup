@@ -84,28 +84,38 @@ export const AUTHOR_BY_ID_QUERY = defineQuery(`
     `);
     
 
-export const PLAYLIST_BY_SLUG_QUERY = defineQuery(
-   `*[_type == "playlist" && slug.current == $slug][0]
-   {
-    _id,
-    title,
-    slug,
-    select[]->{
-    _id,
-    _createdAt,
-    title,
-    slug,
-    author->{
-    _id,
-    name,
-    slug,
-    image,
-    bio}
-    },
-    views,
-    description,
-    category,
-    image,
-    pitch
-   }`
-)
+    export const PLAYLIST_BY_SLUG_QUERY = defineQuery(
+      `*[_type == "playlist" && slug.current == $slug][0]{
+        _id,
+        title,
+        slug,
+        select[]->{
+          _id,
+          _createdAt,
+          title,
+          slug,
+          author->{
+            _id,
+            name,
+            slug,
+            image,
+            bio
+          },
+          image { // Ensure this field is included and fetched
+            asset->{
+              url
+            }
+          }
+        },
+        views,
+        description,
+        category,
+        image {
+          asset->{
+            url
+          }
+        },
+        pitch
+      }`
+    );
+    
